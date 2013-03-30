@@ -37,47 +37,17 @@ object Main {
   /**
    * Exercise 3
    */
-  def countChange1(money: Int, coins: List[Int]): Int = {
-    def compute(money: Int, coins: List[Int]): Int = {
-      if (money < 0) 0
-      else if (money == 0) 1
-      else if (coins.isEmpty) 0
-      else {
-        var total = 0
-        for (count <- 0 to money / coins.head) {
-          total = total + compute(money - coins.head * count, coins.tail)
-        }
-        total
-      }
-    }
-
-    if (money == 0) 0 else if (coins.isEmpty) 0 else {
-      compute(money, coins)
-    }
-  }
-
-  /**
-   * Exercise 3
-   */
   def countChange(money: Int, coins: List[Int]): Int = {
     def compute(total: Int, money: Int, coins: List[Int]): Int = {
       if (money < 0) total
       else if (money == 0) total+1
       else if (coins.isEmpty) total
-      else {
-          compute(total, money - coins.head, coins) + compute(total, money, coins.tail)
-      }
+      else if (coins.head > 0) compute(total, money - coins.head, coins) + compute(total, money, coins.tail)
+      else compute(total, money, coins.tail)
     }
 
-    if (money == 0) 0 else if (coins.isEmpty) 0 else {
-      compute(0, money, coins)
-    }
+    if (money <= 0) 0 
+    else if (coins.isEmpty) 0 
+    else compute(0, money, coins)
   }
-  
-  def factLoop (total : Int, n : Int) : Int = {
-    if (n == 0) total
-    else factLoop(total*n, n-1)
-  }
-  
-  def fact(n: Int) = factLoop(1, n)
 }
